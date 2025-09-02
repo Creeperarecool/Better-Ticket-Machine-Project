@@ -65,6 +65,16 @@ public class TicketMachine
             balance = balance + amount;
         }
     }
+    
+    public void affordable(int budget)
+    {
+        if (price > budget){
+            System.out.println("Too expensive, your budget is:" + budget + "and the price is:" + price);
+        }
+        else{
+            System.out.println("Just Right");
+        }
+    }
 
     /**
      * Print a ticket if enough money has been inserted, and
@@ -103,5 +113,13 @@ public class TicketMachine
         amountToRefund = balance;
         balance = 0;
         return amountToRefund;
+    }
+    
+    public int empty()
+    {
+        int emptyMachine;
+        emptyMachine = total;
+        total = 0;
+        return emptyMachine;
     }
 }
