@@ -13,12 +13,15 @@ public class TicketMachine
 {
     // The price of a ticket from this machine.
     private int price;
+    private int newPrice;
     // The amount of money entered by a customer so far.
     private int balance;
     // The total amount of money collected by this machine.
     private int total;
     
     private boolean moneyInsertCheck;
+    
+    private int amountLeftToPay;
 
     /**
      * Create a machine that issues tickets of the given price.
@@ -28,6 +31,7 @@ public class TicketMachine
         price = cost;
         balance = 0;
         total = 0;
+        newPrice = price;
     }
 
     /**
@@ -36,6 +40,13 @@ public class TicketMachine
     public int getPrice()
     {
         return price;
+    }
+    
+    public void discount(float percentDiscounted)
+    {
+        percentDiscounted = percentDiscounted / 100;
+        float tempPrice = price * percentDiscounted;
+        newPrice = price - (int)tempPrice;
     }
 
     /**
@@ -82,8 +93,8 @@ public class TicketMachine
      * an error message if more money is required.
      */
     public void printTicket()
-    {
-        if(balance >= price) {
+    {   
+        if(balance >= newPrice - amountLeftToPay) {
             // Simulate the printing of a ticket.
             System.out.println("##################");
             System.out.println("# The BlueJ Line");
@@ -93,13 +104,16 @@ public class TicketMachine
             System.out.println();
 
             // Update the total collected with the price.
-            total = total + price;
+            total = total + newPrice;
             // Reduce the balance by the price.
-            balance = balance - price;
+            balance = balance - newPrice;
+            newPrice = price;
         }
         else {
-            System.out.printf("You must insert at least %d more cents.%n",
-                              price - balance);
+            amountLeftToPay = amountLeftToPay + balance;
+            System.out.printf("You must pay %d more cents.%n",
+                              newPrice - amountLeftToPay);
+            balance = 0;
         }
     }
 
