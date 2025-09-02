@@ -17,6 +17,8 @@ public class TicketMachine
     private int balance;
     // The total amount of money collected by this machine.
     private int total;
+    
+    private boolean moneyInsertCheck;
 
     /**
      * Create a machine that issues tickets of the given price.
@@ -50,11 +52,17 @@ public class TicketMachine
      */
     public void insertMoney(int amount)
     {
-        if(amount > 0) {
-            balance = balance + amount;
+        if (amount <= 0){
+            moneyInsertCheck = true;
+        }
+        else{
+            moneyInsertCheck = false;
+        }
+        if(moneyInsertCheck) {
+            System.out.println("Use a positive amount rather than: " + amount);
         }
         else {
-            System.out.println("Use a positive amount rather than: " + amount);
+            balance = balance + amount;
         }
     }
 
